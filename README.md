@@ -116,3 +116,16 @@ The journey is far from over. The notebook folder currently contains labs up to 
 * [ ] **Google DeepMind: 04 Discover The Transformer Architecture**
 * [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
+
+<br>
+
+**Project Author:** [Yan Enrique (OYanEnrique)](https://github.com/OYanEnrique)  
+*(Data Scientist | Machine Learning Engineer)*
+
+</div>
+
+---
+
+## 📝 Licença
+
+This project is licensed under the **MIT**. See the [LICENSE](LICENSE) for more details.
