@@ -116,3 +116,16 @@ A jornada está longe do fim. A pasta de notebooks contém atualmente os laborat
 * [ ] **Google DeepMind: 04 Discover The Transformer Architecture**
 * [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
+
+<br>
+
+**Autor do Projeto:** [Yan Enrique (OYanEnrique)](https://github.com/OYanEnrique)  
+*(Cientista de Dados | Machine Learning Engineer)*
+
+</div>
+
+---
+
+## 📝 Licença
+
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
