@@ -117,6 +117,8 @@ The journey is far from over. The notebook folder currently contains labs up to 
 * [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
 
+<div align="center">
+
 <br>
 
 **Project Author:** [Yan Enrique (OYanEnrique)](https://github.com/OYanEnrique)  

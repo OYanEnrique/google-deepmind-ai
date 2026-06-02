@@ -117,6 +117,8 @@ A jornada está longe do fim. A pasta de notebooks contém atualmente os laborat
 * [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
 
+<div align="center">
+
 <br>
 
 **Autor do Projeto:** [Yan Enrique (OYanEnrique)](https://github.com/OYanEnrique)  
