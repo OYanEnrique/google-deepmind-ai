@@ -135,11 +135,39 @@ Tokens de Entrada ---> [Embeddings + Codificação Posicional] ---> [Atenção M
 
 ---
 
+## 📖 Capítulo 5: Ajuste Fino do seu Modelo (Fine-Tune Your Model)
+*Como personalizamos modelos pré-treinados para tarefas específicas? Exploramos as limitações de prompts em modelos base, estruturação de dados em formato de diálogo e a diferença entre o ajuste fino de todos os parâmetros e o Ajuste Fino Eficiente em Parâmetros (PEFT) com LoRA.*
+
+```
+[Modelo Base Pré-treinado] ---> [Formatação de Prompt / Delimitadores] ---> [LoRA (Adaptação de Baixo Posto)] ---> [Ajuste Fino Eficiente] ---> Assistente Especializado
+```
+
+### Laboratórios e Descobertas
+* [**`24-Google-Deepmind.ipynb`**](./notebooks/24-Google-Deepmind.ipynb) — **Fazendo Perguntas ao seu SLM**
+  * **A Missão:** Carregar o modelo transformer pré-treinado (focado em previsão do próximo token) e avaliar seu desempenho ao responder perguntas diretas comparado ao completamento de sentenças afirmativas.
+  * **A Descoberta:** Percebi que um modelo de linguagem base pura não está naturalmente alinhado para responder perguntas. Ele frequentemente trata perguntas apenas como um texto a ser continuado com outras perguntas ou dados não relacionados, evidenciando a necessidade de ajuste fino.
+* [**`25-Google-Deepmind.ipynb`**](./notebooks/25-Google-Deepmind.ipynb) — **Formatando Texto para Diálogos em Turnos**
+  * **A Missão:** Desenvolver uma função de formatação para estruturar pares de perguntas e respostas brutos utilizando tokens delimitadores especiais para simular turnos de diálogo.
+  * **A Descoberta:** Compreendi o papel crucial dos delimitadores especiais para sinalizar ao modelo onde começa a pergunta do usuário e onde deve iniciar a resposta gerada, estruturando o comportamento conversacional.
+* [**`26-Google-Deepmind.ipynb`**](./notebooks/26-Google-Deepmind.ipynb) — **Ajuste Fino de Todos os Parâmetros do seu SLM**
+  * **A Missão:** Realizar o ajuste fino completo (full-parameter) de um modelo de linguagem pequeno (SLM) usando o conjunto de dados de perguntas e respostas formatado para gerar flashcards de estudo.
+  * **A Descoberta:** Concluí o ciclo do ajuste fino de instrução. Ao continuar a retropropagação em um conjunto especializado, o modelo base deixa de ser apenas um completador de texto genérico e se transforma em um assistente de diálogo especializado.
+* [**`27-Google-Deepmind.ipynb`**](./notebooks/27-Google-Deepmind.ipynb) — **Ajuste Fino de Todos os Parâmetros do Gemma**
+  * **A Missão:** Tentar aplicar o ajuste fino de todos os parâmetros no modelo Gemma-1B (significativamente maior) e observar o comportamento do hardware.
+  * **A Descoberta:** Deparei-me com o erro de falta de memória (Out Of Memory - OOM). Vivenciei na prática os gargalos de hardware ao tentar treinar bilhões de parâmetros simultaneamente, evidenciando por que o ajuste fino completo é inviável em hardware comum.
+* [**`28-Google-Deepmind.ipynb`**](./notebooks/28-Google-Deepmind.ipynb) — **Implementando LoRA para Ajuste Fino Eficiente**
+  * **A Missão:** Implementar uma camada LoRA (Low-Rank Adaptation) do zero em Keras e calcular a redução drástica no número de parâmetros treináveis.
+  * **A Descoberta:** Assimilei a matemática por trás do LoRA. Ao decompor as atualizações de matrizes de peso de alta dimensão em duas matrizes de baixo posto ($W_0 + B \times A$), reduzimos drasticamente o uso de memória mantendo uma capacidade de aprendizado equivalente.
+* [**`29-Google-Deepmind.ipynb`**](./notebooks/29-Google-Deepmind.ipynb) — **Ajuste Fino do Gemma com LoRA**
+  * **A Missão:** Utilizar a técnica LoRA para realizar o ajuste fino do modelo Gemma-1B com sucesso em uma GPU única para a tarefa de geração de flashcards.
+  * **A Descoberta:** Ao combinar o conhecimento pré-treinado do Gemma com o treinamento eficiente do LoRA, criei um modelo robusto capaz de gerar respostas precisas para diversos temas sem estourar a memória da GPU.
+
+---
+
 ## 🔮 A Missão Continua...
 
-A jornada está longe do fim. A pasta de notebooks contém atualmente os laboratórios até o Curso 4. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
+A jornada está longe do fim. A pasta de notebooks contém atualmente os laboratórios até o Curso 5. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
 
-* [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
 
 <div align="center">

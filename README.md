@@ -135,11 +135,39 @@ Input Tokens ---> [Embeddings + Positional Encoding] ---> [Masked Multi-Head Att
 
 ---
 
+## 📖 Chapter 5: Fine-Tune Your Model
+*How do we customize pre-trained models for specific tasks? We explore prompting limitations, format data for dialogue, and perform full-parameter fine-tuning versus Parameter-Efficient Fine-Tuning (PEFT) using LoRA.*
+
+```
+[Pre-trained Base Model] ---> [Prompt Formatting / Delimiters] ---> [LoRA (Low-Rank Adaptation)] ---> [Parameter-Efficient Fine-Tuning] ---> Specialized Assistant
+```
+
+### Labs & Breakthroughs
+* [**`24-Google-Deepmind.ipynb`**](./notebooks/24-Google-Deepmind.ipynb) — **Prompt Your SLM with Questions**
+  * **The Mission:** Load the pre-trained transformer model (trained on next-token prediction) and test its ability to answer direct questions compared to completing statements.
+  * **The Breakthrough:** I realized that a pure base language model is not naturally aligned to answer questions. It often treats questions as prompts to be completed with more questions or unrelated text, highlighting the need for fine-tuning.
+* [**`25-Google-Deepmind.ipynb`**](./notebooks/25-Google-Deepmind.ipynb) — **Format Text for Turn-Based Dialogue**
+  * **The Mission:** Build a data preprocessing function to format raw question-answer pairs using special delimiter tokens to structure conversational text.
+  * **The Breakthrough:** I understood how special tokens act as cues that help the model separate user prompts from generated answers during training and inference.
+* [**`26-Google-Deepmind.ipynb`**](./notebooks/26-Google-Deepmind.ipynb) — **Fine-Tune All The Parameters of Your SLM**
+  * **The Mission:** Perform full-parameter fine-tuning of a small language model (SLM) using the formatted QA dataset for a flashcard generation task.
+  * **The Breakthrough:** I closed the loop on instruction tuning. By continuing backpropagation on a task-specific dataset, a base model transitions from a simple next-token predictor to a specialized dialogue assistant.
+* [**`27-Google-Deepmind.ipynb`**](./notebooks/27-Google-Deepmind.ipynb) — **Full-Parameter Fine-Tuning of Gemma**
+  * **The Mission:** Try to apply full-parameter fine-tuning to the larger pre-trained Gemma-1B model and observe the hardware requirements.
+  * **The Breakthrough:** Encountered the "Out Of Memory" (OOM) error. I experienced first-hand the hardware limits of fine-tuning billion-parameter models and realized why full-parameter tuning is impractical on consumer-grade hardware.
+* [**`28-Google-Deepmind.ipynb`**](./notebooks/28-Google-Deepmind.ipynb) — **Implement LoRA for Parameter-Efficient Fine-Tuning**
+  * **The Mission:** Implement a Low-Rank Adaptation (LoRA) layer from scratch in Keras and calculate the parameter savings compared to full fine-tuning.
+  * **The Breakthrough:** I understood the mathematical intuition behind LoRA. By factoring high-dimensional weight updates into two low-rank matrices ($W_0 + B \times A$), we drastically reduce trainable parameters while preserving fine-tuning quality.
+* [**`29-Google-Deepmind.ipynb`**](./notebooks/29-Google-Deepmind.ipynb) — **Fine-Tune Gemma with LoRA**
+  * **The Mission:** Apply LoRA to successfully fine-tune the Gemma-1B model on a single GPU for the flashcard generation task.
+  * **The Breakthrough:** By combining Gemma's pre-trained knowledge base with the LoRA parameter-efficient training, I built a model that can generate high-quality answers on diverse topics without running out of GPU memory.
+
+---
+
 ## 🔮 The Quest Continues...
 
-The journey is far from over. The notebook folder currently contains labs up to Course 4. As I progress through the remaining modules of the path, new notebooks and breakthroughs will be committed here:
+The journey is far from over. The notebook folder currently contains labs up to Course 5. As I progress through the remaining modules of the path, new notebooks and breakthroughs will be committed here:
 
-* [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
 
 
