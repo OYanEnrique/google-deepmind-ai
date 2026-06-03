@@ -109,11 +109,36 @@ Entradas ---> [Pesos e Biases] ---> [Função de Ativação] ---> Cálculo da Pe
 
 ---
 
+## 📖 Capítulo 4: Descobrindo a Arquitetura Transformer
+*Como os transformers processam a informação? Mergulhamos nos componentes principais da arquitetura transformer: atenção, configurações multi-head, mascaramento, embeddings posicionais e escalabilidade de parâmetros.*
+
+```
+Tokens de Entrada ---> [Embeddings + Codificação Posicional] ---> [Atenção Multi-Head Mascarada] ---> [LayerNorm & MLP] ---> Previsões do Próximo Token
+```
+
+### Laboratórios e Descobertas
+* [**`19-Google-Deepmind.ipynb`**](./notebooks/19-Google-Deepmind.ipynb) — **Visualizando Pesos de Atenção**
+  * **A Missão:** Entrar no funcionamento interno de um transformer. Visualizamos como o mecanismo de atenção do modelo Gemma-1B distribui pesos sobre diferentes tokens de um prompt para prever a próxima palavra.
+  * **A Descoberta:** Observei como a atenção muda entre as diferentes camadas do modelo e como ela consegue capturar dependências de longo alcance, atravessando a barreira das sentenças para buscar contexto do início do texto.
+* [**`20-Google-Deepmind.ipynb`**](./notebooks/20-Google-Deepmind.ipynb) — **Implementando a Equação de Atenção**
+  * **A Missão:** Entender a fundo a matemática do mecanismo de atenção, implementando do zero os cálculos de query, key e value ($Q, K, V$) usando JAX.
+  * **A Descoberta:** Implementei a equação de atenção produto-escalar escalonada (scaled dot-product attention) fundamental, utilizando as matrizes de projeção do Gemma-1B para computar pesos de atenção personalizados e gerar embeddings contextuais.
+* [**`21-Google-Deepmind.ipynb`**](./notebooks/21-Google-Deepmind.ipynb) — **Implementando Atenção Multi-Head Mascarada**
+  * **A Missão:** Construir um mecanismo de atenção multi-head mascarada completo, aplicando mascaramento causal e processamento em paralelo para múltiplas cabeças.
+  * **A Descoberta:** Compreendi como várias cabeças de atenção focam em diferentes partes do texto simultaneamente e por que o mascaramento causal é indispensável no treinamento autorregressivo para evitar que o modelo "trapaceie" olhando para os tokens futuros.
+* [**`22-Google-Deepmind.ipynb`**](./notebooks/22-Google-Deepmind.ipynb) — **Embeddings Posicionais**
+  * **A Missão:** Investigar a propriedade de invariância de ordem da autoatenção pura, demonstrando como alterar a ordem das palavras sem informações posicionais resulta na exata mesma saída.
+  * **A Descoberta:** Uma percepção clara do porquê de as codificações posicionais serem obrigatórias. Sem elas, o transformer trata sentenças como um "saco de palavras" (bag of words), sendo incapaz de diferenciar *"o tigre perseguiu o leão"* de *"o leão perseguiu o tigre"*.
+* [**`23-Google-Deepmind.ipynb`**](./notebooks/23-Google-Deepmind.ipynb) — **Parâmetros Treináveis no Modelo Transformer**
+  * **A Missão:** Analisar a implementação modular de um transformer completo em Keras e JAX, escrevendo funções para calcular a quantidade exata de parâmetros de cada bloco constituivo.
+  * **A Descoberta:** Dominei a dinâmica de escala de parâmetros dos transformers. Ao dissecar os componentes de LayerNorm, Embeddings, Atenção e MLP, aprendi como os hiperparâmetros e o tamanho do vocabulário escalam matematicamente o total de parâmetros treináveis.
+
+---
+
 ## 🔮 A Missão Continua...
 
-A jornada está longe do fim. A pasta de notebooks contém atualmente os laboratórios até o Curso 3. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
+A jornada está longe do fim. A pasta de notebooks contém atualmente os laboratórios até o Curso 4. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
 
-* [ ] **Google DeepMind: 04 Discover The Transformer Architecture**
 * [ ] **Google DeepMind: 05 Fine-Tune Your Model**
 * [ ] **Google DeepMind: 07 Accelerate Your Model**
 
