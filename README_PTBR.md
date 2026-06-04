@@ -135,7 +135,7 @@ Tokens de Entrada ---> [Embeddings + Codificação Posicional] ---> [Atenção M
 
 ---
 
-## 📖 Capítulo 5: Ajuste Fino do seu Modelo (Fine-Tune Your Model)
+## 📖 Capítulo 5: Ajuste Fino do seu Modelo
 *Como personalizamos modelos pré-treinados para tarefas específicas? Exploramos as limitações de prompts em modelos base, estruturação de dados em formato de diálogo e a diferença entre o ajuste fino de todos os parâmetros e o Ajuste Fino Eficiente em Parâmetros (PEFT) com LoRA.*
 
 ```
@@ -164,11 +164,42 @@ Tokens de Entrada ---> [Embeddings + Codificação Posicional] ---> [Atenção M
 
 ---
 
+## 📖 Capítulo 6: Acelere seu Modelo
+*Como otimizamos modelos de linguagem para hardware com recursos limitados? Analisamos os trade-offs de escala dos modelos, calculamos FLOPs e o consumo de memória da GPU, e aplicamos técnicas de economia de memória como precisão mista bfloat16 e acúmulo de gradiente.*
+
+```
+[Gemma-4B (FP32)] ---> 62.10 GB (OOM na GPU de 16GB)
+[Gemma-4B (bfloat16 + LoRA)] ---> 8.70 GB Inferência / 31.05 GB Treinamento
+[Acúmulo de Gradiente (Passos=8)] ---> Simula Lote de 8, cabe na GPU de 16GB
+```
+
+### Laboratórios e Descobertas
+* [**`30-Google-Deepmind.ipynb`**](./notebooks/30-Google-Deepmind.ipynb) — **Comparando Modelos de Diferentes Tamanhos**
+  * **A Missão:** Comparar as gerações de texto dos modelos transformer Gemma-1B e Gemma-4B para entender os trade-offs entre desempenho e eficiência.
+  * **A Descoberta:** Visualizei o trade-off entre desempenho e eficiência: modelos maiores (Gemma-4B) são melhores em recall factual e geração sutil de texto, mas são significativamente mais lentos, enquanto modelos menores (Gemma-1B) são mais rápidos e eficientes, porém geram saídas menos detalhadas.
+* [**`31-Google-Deepmind.ipynb`**](./notebooks/31-Google-Deepmind.ipynb) — **Estimando FLOPs de Treinamento**
+  * **A Missão:** Estimar o custo computacional do treinamento de modelos de linguagem usando a fórmula padrão: $\text{FLOPs} \approx 6 \times P \times N$, onde $P$ é a quantidade de parâmetros e $N$ é o número de tokens.
+  * **A Descoberta:** Aprendi a diferença entre FLOPs (operações de ponto flutuante totais) e FLOPS (operações de ponto flutuante por segundo). Calculei os custos de treinamento para modelos do mundo real (BERT, T5, Gemma, PaLM), ilustrando a relação de escala linear entre o tamanho do modelo/dataset e a computação requerida.
+* [**`32-Google-Deepmind.ipynb`**](./notebooks/32-Google-Deepmind.ipynb) — **Batendo em um Muro**
+  * **A Missão:** Tentar carregar e ajustar o Gemma-4B em precisão total de 32 bits para vivenciar em primeira mão as limitações de hardware.
+  * **A Descoberta:** Deparei-me com o erro `RESOURCE_EXHAUSTED` (Falta de Memória - OOM), provando na prática que modelos com bilhões de parâmetros não podem ser treinados com configurações padrão em hardware comum, destacando a necessidade de técnicas de eficiência de memória.
+* [**`33-Google-Deepmind.ipynb`**](./notebooks/33-Google-Deepmind.ipynb) — **Estimando Memória da GPU**
+  * **A Missão:** Implementar uma calculadora de memória para estimar os requisitos de GPU em cinco componentes essenciais: parâmetros do modelo, lotes de entrada, ativações, gradientes e estados do otimizador.
+  * **A Descoberta:** Estimei que treinar o Gemma-4B em FP32 exige 62,10 GB de memória (excedendo GPUs comuns de 16 GB). Descobri que mudar para a precisão `bfloat16` corta a memória pela metade (ex: 31,05 GB para treino, 8,70 GB para inferência), viabilizando a inferência em hardware de 16 GB.
+* [**`34-Google-Deepmind.ipynb`**](./notebooks/34-Google-Deepmind.ipynb) — **Ajuste Fino de um Modelo com bfloat16**
+  * **A Missão:** Carregar os parâmetros do modelo Gemma-4B usando o tipo de dados `bfloat16` e realizar o ajuste fino com LoRA em uma única GPU T4.
+  * **A Descoberta:** Superei com sucesso o muro de memória, carregando os pesos do modelo em `bfloat16` e realizando o ajuste fino no dataset Africa Galore QA. Observei que, apesar de uma instabilidade inicial na época 1, o modelo convergiu na época 4 para gerar flashcards de alta qualidade.
+* [**`35-Google-Deepmind.ipynb`**](./notebooks/35-Google-Deepmind.ipynb) — **Aplicando Acúmulo de Gradiente**
+  * **A Missão:** Simular um tamanho de lote maior durante o treinamento do Gemma-4B em uma GPU com restrição de memória usando acúmulo de gradiente.
+  * **A Descoberta:** Vivenciei um erro de falta de memória (OOM) ao tentar aumentar o lote físico para 4. Resolvi isso configurando `gradient_accumulation_steps=8` com lote físico de 1, obtendo a estabilidade de treinamento de um lote efetivo de 8 sem estourar o limite de 16 GB de memória.
+
+---
+
 ## 🔮 A Missão Continua...
 
-A jornada está longe do fim. A pasta de notebooks contém atualmente os laboratórios até o Curso 5. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
+A jornada está longe do fim. À medida que eu avançar nos módulos restantes da trilha, novos notebooks e conquistas serão consolidados aqui:
 
-* [ ] **Google DeepMind: 07 Accelerate Your Model**
+* [ ] **Google DeepMind: 08 Capstone: Develop Your Model for Real-World Impact**
 
 <div align="center">
 

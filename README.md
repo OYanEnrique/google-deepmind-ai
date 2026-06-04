@@ -164,11 +164,42 @@ Input Tokens ---> [Embeddings + Positional Encoding] ---> [Masked Multi-Head Att
 
 ---
 
+## 📖 Chapter 6: Accelerate Your Model
+*How do we optimize language models for resource-constrained hardware? We analyze model scaling trade-offs, compute FLOPs and GPU memory consumption, and apply memory-saving techniques like bfloat16 mixed precision and gradient accumulation.*
+
+```
+[Gemma-4B (FP32)] ---> 62.10 GB (OOM on 16GB GPU)
+[Gemma-4B (bfloat16 + LoRA)] ---> 8.70 GB Inference / 31.05 GB Training
+[Gradient Accumulation (Steps=8)] ---> Simulates Batch Size 8, fits in 16GB GPU
+```
+
+### Labs & Breakthroughs
+* [**`30-Google-Deepmind.ipynb`**](./notebooks/30-Google-Deepmind.ipynb) — **Compare Models of Different Sizes**
+  * **The Mission:** Compare text generations for the Gemma-1B and Gemma-4B transformer models to understand the trade-offs between performance and efficiency.
+  * **The Breakthrough:** Visualized the performance-efficiency trade-off: larger models (Gemma-4B) are better at factual recall and nuanced text generation but are significantly slower, while smaller models (Gemma-1B) are faster and compute-friendly but generate less detailed output.
+* [**`31-Google-Deepmind.ipynb`**](./notebooks/31-Google-Deepmind.ipynb) — **Estimate Training FLOPs**
+  * **The Mission:** Estimate the computational cost of training language models using the standard formula: $\text{FLOPs} \approx 6 \times P \times N$, where $P$ is parameters and $N$ is tokens.
+  * **The Breakthrough:** Learned the distinction between FLOPs (total operations) and FLOPS (operations per second). Computed training costs for real-world models (BERT, T5, Gemma, PaLM), illustrating the linear scaling relationship between model/dataset size and compute requirements.
+* [**`32-Google-Deepmind.ipynb`**](./notebooks/32-Google-Deepmind.ipynb) — **Hitting a Wall**
+  * **The Mission:** Attempt to load and fine-tune Gemma-4B in full 32-bit precision to experience hardware limitations first-hand.
+  * **The Breakthrough:** Encountered the `RESOURCE_EXHAUSTED` (Out-of-Memory) error, demonstrating that billion-parameter models cannot be trained with standard settings on consumer-grade hardware, highlighting the necessity of memory-saving efficiency techniques.
+* [**`33-Google-Deepmind.ipynb`**](./notebooks/33-Google-Deepmind.ipynb) — **Estimate GPU Memory**
+  * **The Mission:** Implement a memory calculator to estimate GPU requirements across five key training components: model parameters, input batches, activations, gradients, and optimizer states.
+  * **The Breakthrough:** Estimated that training Gemma-4B in FP32 requires 62.10 GB of memory (exceeding standard 16GB GPUs). Discovered that switching to `bfloat16` precision halves the memory requirement (e.g., 31.05 GB for training, 8.70 GB for inference), making inference possible on 16GB hardware.
+* [**`34-Google-Deepmind.ipynb`**](./notebooks/34-Google-Deepmind.ipynb) — **Fine-Tune a Model with bfloat16**
+  * **The Mission:** Load the Gemma-4B model parameters using the `bfloat16` data type and fine-tune it with LoRA on a single T4 GPU.
+  * **The Breakthrough:** Successfully bypassed the memory wall, loaded the model weights in `bfloat16`, and fine-tuned it on the Africa Galore QA dataset. Observed that despite initial training instability in epoch 1, the model converged by epoch 4 to generate high-quality study flashcards.
+* [**`35-Google-Deepmind.ipynb`**](./notebooks/35-Google-Deepmind.ipynb) — **Apply Gradient Accumulation**
+  * **The Mission:** Simulate a larger batch size during Gemma-4B training on a memory-constrained GPU using gradient accumulation.
+  * **The Breakthrough:** Experienced an OOM when increasing the physical batch size to 4. Solved this by setting `gradient_accumulation_steps=8` with a batch size of 1, achieving the training stability of an effective batch size of 8 without exceeding the 16 GB memory limit.
+
+---
+
 ## 🔮 The Quest Continues...
 
-The journey is far from over. The notebook folder currently contains labs up to Course 5. As I progress through the remaining modules of the path, new notebooks and breakthroughs will be committed here:
+The journey is far from over. As I progress through the remaining modules of the path, new notebooks and breakthroughs will be committed here:
 
-* [ ] **Google DeepMind: 07 Accelerate Your Model**
+* [ ] **Google DeepMind: 08 Capstone: Develop Your Model for Real-World Impact**
 
 
 <div align="center">
